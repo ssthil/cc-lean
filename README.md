@@ -5,8 +5,15 @@
 No telemetry, no servers launched, no network calls. It only reads files already on your disk.
 
 ```bash
-npx cc-lean audit      # posture report
-npx cc-lean init       # install the lean default setup
+npx @ssthil/cc-lean audit      # posture report
+npx @ssthil/cc-lean init       # install the lean default setup
+```
+
+Or install globally — the command is `cc-lean` either way:
+
+```bash
+npm i -g @ssthil/cc-lean
+cc-lean audit
 ```
 
 ## Why
