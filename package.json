@@ -1,0 +1,32 @@
+{
+  "name": "cc-lean",
+  "version": "0.1.0",
+  "description": "Static, offline audit of your Claude Code setup — flags never-used MCP connectors, oversized CLAUDE.md/memory, and missing context guardrails. Then lays down a lean default setup.",
+  "type": "module",
+  "bin": {
+    "cc-lean": "src/index.js"
+  },
+  "files": [
+    "src",
+    "assets",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "audit": "node src/index.js audit",
+    "init": "node src/index.js init"
+  },
+  "keywords": [
+    "claude-code",
+    "claude",
+    "mcp",
+    "token",
+    "context",
+    "audit",
+    "cli"
+  ],
+  "license": "MIT",
+  "author": "Senthil Sivaramakrishnan"
+}
