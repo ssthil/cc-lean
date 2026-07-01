@@ -4,6 +4,10 @@
 
 No telemetry, no servers launched, no network calls. It only reads files already on your disk.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ssthil/cc-lean/main/docs/audit.png" alt="cc-lean audit — framed terminal report showing used vs never-used MCP connectors, a posture score, and top fixes" width="620">
+</p>
+
 ```bash
 npx @ssthil/cc-lean audit      # posture report
 npx @ssthil/cc-lean init       # install the lean default setup
@@ -33,16 +37,28 @@ Reads `~/.claude/projects/**/*.jsonl` and reports:
 - **Guardrails** — whether the statusline advisor is configured; memory footprint.
 - **Posture score** (0–100) + the top 3 highest-impact fixes.
 
+See the screenshot above for the full framed report.
+
+<details>
+<summary>Plain-text sample (no colour)</summary>
+
 ```
-MCP connectors  (from 151 transcripts)
-  ● Atlassian                27× · last today
-  ● Figma                    5× · last 19d ago
-  ○ Gmail                    never used · ~14 tools deferred
-  ○ Slack                    never used · ~2 tools deferred
-  ...
-Posture score: 60/100
-  1. Disconnect 17 never-used connectors (…) — shrinks the deferred MCP pool. Run /mcp.
+POSTURE   60/100   needs work
+██████████████████░░░░░░░░░░░░
+
+MCP CONNECTORS                               152 transcripts
+────────────────────────────────────────────────────────────
+● Atlassian            ▇▇▇▇▇▇   28×    today
+● Figma                ▇·····   5×     19d ago
+○ Gmail                never used  ~14 tools deferred
+○ Slack                never used  ~2 tools deferred
+...
+
+TOP FIXES
+① Disconnect 16 never-used connectors (…) — shrinks the deferred MCP pool. Run /mcp.
 ```
+
+</details>
 
 ## `cc-lean init`
 

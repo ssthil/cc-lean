@@ -12,7 +12,9 @@ export const GLOBAL_CLAUDE_MD = path.join(CLAUDE_DIR, 'CLAUDE.md');
 // CLAUDE.md guideline: keep it lean so it doesn't bloat every session start.
 export const CLAUDE_MD_MAX_LINES = 200;
 
-const useColor = process.stdout.isTTY && !process.env.NO_COLOR;
+// Colour when attached to a TTY, or when FORCE_COLOR is set (so piped captures —
+// e.g. rendering the audit to a screenshot — keep their ANSI). NO_COLOR wins.
+const useColor = (Boolean(process.env.FORCE_COLOR) || process.stdout.isTTY) && !process.env.NO_COLOR;
 const wrap = (code) => (s) => (useColor ? `\x1b[${code}m${s}\x1b[0m` : String(s));
 export const c = {
   red: wrap('31'),
@@ -22,6 +24,30 @@ export const c = {
   dim: wrap('2'),
   bold: wrap('1'),
 };
+
+// Visible-width helpers — measure/pad strings ignoring ANSI colour codes, so
+// box-drawn layouts stay aligned regardless of styling.
+const ANSI_RE = /\x1b\[[0-9;]*m/g;
+export const vlen = (s) => String(s).replace(ANSI_RE, '').length;
+export const padEnd = (s, n) => s + ' '.repeat(Math.max(0, n - vlen(s)));
+export const padStart = (s, n) => ' '.repeat(Math.max(0, n - vlen(s))) + s;
+
+/** Word-wrap plain text to a max visible width. */
+export function wrapText(text, width) {
+  const words = String(text).split(/\s+/);
+  const lines = [];
+  let line = '';
+  for (const w of words) {
+    if (line && vlen(line) + 1 + vlen(w) > width) {
+      lines.push(line);
+      line = w;
+    } else {
+      line = line ? `${line} ${w}` : w;
+    }
+  }
+  if (line) lines.push(line);
+  return lines;
+}
 
 /** Read + parse a JSON file, returning `fallback` on any failure. */
 export function readJson(file, fallback = null) {
