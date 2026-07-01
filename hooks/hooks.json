@@ -2,8 +2,12 @@
   "hooks": {
     "PreCompact": [
       {
-        "type": "command",
-        "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/pre-compact-check.sh"
+        "hooks": [
+          {
+            "type": "command",
+            "command": "\"${CLAUDE_PLUGIN_ROOT}\"/hooks/pre-compact-check.sh"
+          }
+        ]
       }
     ]
   }
