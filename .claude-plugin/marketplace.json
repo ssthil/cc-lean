@@ -1,0 +1,17 @@
+{
+  "name": "ssthil",
+  "description": "Senthil's Claude Code plugins.",
+  "owner": {
+    "name": "Senthil Sivaramakrishnan",
+    "email": "ssthil@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "cc-lean",
+      "source": "./",
+      "description": "The /lean audit skill + a PreCompact nudge to keep Claude Code context lean.",
+      "category": "productivity",
+      "tags": ["token", "context", "mcp", "lean"]
+    }
+  ]
+}

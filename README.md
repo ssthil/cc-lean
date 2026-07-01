@@ -72,6 +72,17 @@ Lays down the lean default setup, safely (existing files are backed up to `*.bak
 cc-lean init --dry-run   # preview without writing
 ```
 
+## Install as a Claude Code plugin
+
+Prefer to manage it inside Claude Code? This repo is also a plugin marketplace, so you can install the `/lean` skill and a **PreCompact nudge** (reminds you to preserve state and prefer `/clear` at task boundaries) directly:
+
+```
+/plugin marketplace add ssthil/cc-lean
+/plugin install cc-lean@ssthil
+```
+
+The plugin ships the `/lean` skill and the PreCompact hook. It can't set your `statusLine` (that's a user-only setting), so run the bundled **`/lean-setup`** command — or `npx @ssthil/cc-lean init` — to add the live context/cost gauge.
+
 ## Requirements
 
 - Node ≥ 18 (zero runtime dependencies)
