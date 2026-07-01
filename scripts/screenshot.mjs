@@ -19,8 +19,8 @@ const ansi = execFileSync('node', ['src/index.js', 'audit'], {
   encoding: 'utf8',
 });
 
-// 2. ANSI -> HTML (handles the SGR codes this CLI emits: bold/dim/colours).
-const PALETTE = { 31: '#ff6b6b', 32: '#3fd37a', 33: '#f5c451', 36: '#3ad1e0' };
+// 2. ANSI -> HTML. Output is captured with FORCE_COLOR=1, so colours arrive as
+// truecolor SGR (38;2;r;g;b) plus bold(1)/dim(2)/reset(0).
 function ansiToHtml(input) {
   const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   let out = '';
@@ -42,15 +42,19 @@ function ansiToHtml(input) {
     emit(input.slice(last, m.index));
     last = re.lastIndex;
     const codes = m[1].split(';').filter(Boolean).map(Number);
-    if (codes.length === 0 || codes.includes(0)) {
+    if (codes.length === 0 || codes[0] === 0) {
       bold = false;
       dim = false;
       color = null;
     }
-    for (const cd of codes) {
+    for (let i = 0; i < codes.length; i += 1) {
+      const cd = codes[i];
       if (cd === 1) bold = true;
       else if (cd === 2) dim = true;
-      else if (PALETTE[cd]) color = PALETTE[cd];
+      else if (cd === 38 && codes[i + 1] === 2) {
+        color = `rgb(${codes[i + 2]},${codes[i + 3]},${codes[i + 4]})`;
+        i += 4;
+      }
     }
   }
   emit(input.slice(last));
@@ -63,13 +67,13 @@ const lines = ansi.replace(/\n+$/, '').split('\n').length;
 // 3. Terminal-window chrome.
 const html = `<!doctype html><html><head><meta charset="utf-8"><style>
   * { margin: 0; box-sizing: border-box; }
-  body { padding: 40px; background: radial-gradient(circle at 30% 0%, #2a2350, #14121f 70%); }
+  body { padding: 40px; background: radial-gradient(circle at 30% 0%, #2a2350, #11111b 70%); }
   .win { width: 660px; margin: 0 auto; border-radius: 12px; overflow: hidden;
          box-shadow: 0 24px 60px rgba(0,0,0,.55); border: 1px solid #ffffff14; }
-  .bar { height: 40px; background: #23232e; display: flex; align-items: center; gap: 8px; padding: 0 16px; }
+  .bar { height: 40px; background: #181825; display: flex; align-items: center; gap: 8px; padding: 0 16px; }
   .dot { width: 12px; height: 12px; border-radius: 50%; }
-  .title { color: #8b8b99; font: 12px -apple-system, sans-serif; margin-left: 10px; }
-  pre { margin: 0; padding: 20px 22px 24px; background: #16161e; color: #d7d7e0;
+  .title { color: #9399b2; font: 12px -apple-system, sans-serif; margin-left: 10px; }
+  pre { margin: 0; padding: 20px 22px 24px; background: #1e1e2e; color: #cdd6f4;
         font: 14px/1.5 "SF Mono", Menlo, Consolas, monospace; }
 </style></head><body>
   <div class="win">

@@ -7,6 +7,7 @@ import { c, vlen, padEnd, padStart, wrapText } from './util.js';
 const W = 60; // inner text width of framed blocks
 
 const line = (n = W + 2) => '─'.repeat(n);
+const heading = (s) => c.lavender(c.bold(s));
 const scoreLabel = (s) => (s >= 80 ? 'lean & clean' : s >= 50 ? 'needs work' : 'heavy');
 const scoreColor = (s) => (s >= 80 ? c.green : s >= 50 ? c.yellow : c.red);
 
@@ -15,25 +16,25 @@ function box(title, rows) {
   const out = [];
   if (title) {
     const head = `─ ${title} `;
-    out.push(c.dim('╭') + c.dim(head) + c.dim(line(W + 2 - vlen(head))) + c.dim('╮'));
+    out.push(c.overlay('╭') + c.overlay(head) + c.overlay(line(W + 2 - vlen(head))) + c.overlay('╮'));
   } else {
-    out.push(c.dim(`╭${line()}╮`));
+    out.push(c.overlay(`╭${line()}╮`));
   }
-  for (const r of rows) out.push(`${c.dim('│')} ${padEnd(r, W)} ${c.dim('│')}`);
-  out.push(c.dim(`╰${line()}╯`));
+  for (const r of rows) out.push(`${c.overlay('│')} ${padEnd(r, W)} ${c.overlay('│')}`);
+  out.push(c.overlay(`╰${line()}╯`));
   return out;
 }
 
 /** Horizontal meter: filled/empty cells over `width`, coloured by `color`. */
 function meter(pct, width, color) {
   const filled = Math.max(0, Math.min(width, Math.round((pct / 100) * width)));
-  return color('█'.repeat(filled)) + c.dim('░'.repeat(width - filled));
+  return color('█'.repeat(filled)) + c.overlay('░'.repeat(width - filled));
 }
 
 /** Tiny proportional bar for connector usage counts. */
 function spark(count, max, width = 6) {
   const cells = max > 0 ? Math.max(1, Math.round((count / max) * width)) : 0;
-  return c.cyan('▇'.repeat(cells)) + c.dim('·'.repeat(width - cells));
+  return c.teal('▇'.repeat(cells)) + c.overlay('·'.repeat(width - cells));
 }
 
 export function renderReport(d) {
@@ -43,68 +44,68 @@ export function renderReport(d) {
   // Header banner.
   push('');
   push(...box(null, [
-    `${c.bold('cc-lean')}  ${c.dim('·')}  ${c.cyan('audit')}`,
-    c.dim('static · offline · read-only posture report'),
+    `${c.mauve(c.bold('cc-lean'))}  ${c.muted('·')}  ${c.sky('audit')}`,
+    c.muted('static · offline · read-only posture report'),
   ]));
   push('');
 
   // Score gauge.
   const sc = scoreColor(d.score);
-  push(`  ${c.bold('POSTURE')}   ${sc(`${d.score}`)}${c.dim('/100')}   ${sc(scoreLabel(d.score))}`);
+  push(`  ${heading('POSTURE')}   ${sc(c.bold(`${d.score}`))}${c.muted('/100')}   ${sc(scoreLabel(d.score))}`);
   push(`  ${meter(d.score, 30, sc)}`);
   push('');
 
   // Connectors.
   const { active, unused } = d.connectors;
-  push(`  ${c.bold('MCP CONNECTORS')}${padStart(c.dim(`${d.files} transcripts`), W - 14)}`);
-  push(`  ${c.dim(line(W))}`);
+  push(`  ${heading('MCP CONNECTORS')}${padStart(c.subtext(`${d.files} transcripts`), W - 14)}`);
+  push(`  ${c.overlay(line(W))}`);
   if (active.length === 0 && unused.length === 0) {
-    push(`  ${c.dim('none found in your history')}`);
+    push(`  ${c.muted('none found in your history')}`);
   } else {
     const max = Math.max(1, ...active.map((a) => a.count));
     for (const a of active) {
-      const name = padEnd(c.green('●') + ' ' + a.name, 22);
+      const name = padEnd(`${c.green('●')} ${c.text(a.name)}`, 22);
       const bar = padEnd(spark(a.count, max), 8);
-      const stat = padEnd(c.dim(`${a.count}×`), 6);
-      push(`  ${name} ${bar} ${stat} ${c.dim(a.last)}`);
+      const stat = padEnd(c.subtext(`${a.count}×`), 6);
+      push(`  ${name} ${bar} ${stat} ${c.subtext(a.last)}`);
     }
     for (const u of unused) {
-      const name = padEnd(c.red('○') + ' ' + c.dim(u.name), 22);
-      push(`  ${name} ${c.red('never used')}  ${c.dim(`~${u.tools} tools deferred`)}`);
+      const name = padEnd(`${c.maroon('○')} ${c.muted(u.name)}`, 22);
+      push(`  ${name} ${c.maroon('never used')}  ${c.muted(`~${u.tools} tools deferred`)}`);
     }
   }
   push('');
 
   // CLAUDE.md + guardrails.
-  push(`  ${c.bold('CLAUDE.md')}`);
+  push(`  ${heading('CLAUDE.md')}`);
   for (const m of d.claudeMd) {
     const ok = !m.over;
-    push(`    ${ok ? c.green('●') : c.yellow('▲')} ${padEnd(m.scope, 8)} ${
-      ok ? c.dim(`${m.lines} lines`) : c.yellow(`${m.lines} lines — over 200`)
+    push(`    ${ok ? c.green('●') : c.peach('▲')} ${c.text(padEnd(m.scope, 8))} ${
+      ok ? c.subtext(`${m.lines} lines`) : c.peach(`${m.lines} lines — over 200`)
     }`);
   }
-  if (d.claudeMd.length === 0) push(`    ${c.dim('none found')}`);
+  if (d.claudeMd.length === 0) push(`    ${c.muted('none found')}`);
   push('');
-  push(`  ${c.bold('GUARDRAILS')}`);
-  push(`    ${d.statusline ? c.green('●') : c.yellow('▲')} statusline ${
-    d.statusline ? c.dim('configured') : c.yellow('not configured')
+  push(`  ${heading('GUARDRAILS')}`);
+  push(`    ${d.statusline ? c.green('●') : c.peach('▲')} ${c.text('statusline')} ${
+    d.statusline ? c.subtext('configured') : c.peach('not configured')
   }`);
-  push(`    ${c.dim('·')} ${c.dim(`memory: ${d.memory.files} files, ~${d.memory.kb} KB`)}`);
+  push(`    ${c.muted('·')} ${c.muted(`memory: ${d.memory.files} files, ~${d.memory.kb} KB`)}`);
   push('');
 
   // Top fixes.
   if (d.fixes.length === 0) {
-    push(...box('ALL CLEAR', [c.green('Lean and clean — nothing to fix. 🌱')]));
+    push(...box(heading('ALL CLEAR'), [c.green('Lean and clean — nothing to fix. 🌱')]));
   } else {
     const marks = ['①', '②', '③'];
     const rows = [];
     d.fixes.slice(0, 3).forEach((f, i) => {
       const wrapped = wrapText(f.text, W - 2);
       wrapped.forEach((w, j) => {
-        rows.push(j === 0 ? `${c.cyan(marks[i])} ${w}` : `  ${c.dim(w)}`);
+        rows.push(j === 0 ? `${c.sky(marks[i])} ${c.text(w)}` : `  ${c.subtext(w)}`);
       });
     });
-    push(...box(c.bold('TOP FIXES'), rows));
+    push(...box(heading('TOP FIXES'), rows));
   }
   push('');
 

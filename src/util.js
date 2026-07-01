@@ -15,14 +15,36 @@ export const CLAUDE_MD_MAX_LINES = 200;
 // Colour when attached to a TTY, or when FORCE_COLOR is set (so piped captures —
 // e.g. rendering the audit to a screenshot — keep their ANSI). NO_COLOR wins.
 const useColor = (Boolean(process.env.FORCE_COLOR) || process.stdout.isTTY) && !process.env.NO_COLOR;
-const wrap = (code) => (s) => (useColor ? `\x1b[${code}m${s}\x1b[0m` : String(s));
+// Truecolor when the terminal advertises it (or colour is forced, e.g. for the
+// screenshot capture); otherwise fall back to the basic 16-colour code so the
+// output still looks reasonable on terminals without 24-bit support.
+const truecolor = useColor && (Boolean(process.env.FORCE_COLOR) || /truecolor|24bit/.test(process.env.COLORTERM || ''));
+const rgb = (hex, fallback) => {
+  if (!truecolor) return fallback;
+  const n = parseInt(hex.slice(1), 16);
+  return `38;2;${(n >> 16) & 255};${(n >> 8) & 255};${n & 255}`;
+};
+const wrap = (code) => (s) => (useColor && code ? `\x1b[${code}m${s}\x1b[0m` : String(s));
+
+// Palette — Catppuccin Mocha, each with a basic-16 fallback. `text` is left
+// unstyled (empty code) so it renders as the terminal's default foreground.
 export const c = {
-  red: wrap('31'),
-  yellow: wrap('33'),
-  green: wrap('32'),
-  cyan: wrap('36'),
-  dim: wrap('2'),
   bold: wrap('1'),
+  dim: wrap('2'),
+  text: wrap(rgb('#cdd6f4', '')),
+  subtext: wrap(rgb('#9399b2', '2')),
+  muted: wrap(rgb('#6c7086', '2')),
+  overlay: wrap(rgb('#585b70', '2')),
+  mauve: wrap(rgb('#cba6f7', '35')),
+  lavender: wrap(rgb('#b4befe', '36')),
+  sky: wrap(rgb('#89dceb', '36')),
+  teal: wrap(rgb('#94e2d5', '36')),
+  green: wrap(rgb('#a6e3a1', '32')),
+  yellow: wrap(rgb('#f9e2af', '33')),
+  peach: wrap(rgb('#fab387', '33')),
+  maroon: wrap(rgb('#eba0ac', '31')),
+  red: wrap(rgb('#f38ba8', '31')),
+  cyan: wrap(rgb('#89dceb', '36')),
 };
 
 // Visible-width helpers — measure/pad strings ignoring ANSI colour codes, so
