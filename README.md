@@ -1,8 +1,20 @@
-# cc-lean
+<p align="center">
+  <img src="https://raw.githubusercontent.com/ssthil/cc-lean/main/docs/banner.png" alt="cc-lean — keep your Claude Code setup lean" width="820">
+</p>
 
-**Keep your Claude Code setup lean.** A static, offline audit of your `~/.claude` config that finds the things quietly bloating every session — then lays down a sensible lean default setup.
+<p align="center">
+  <a href="https://www.npmjs.com/package/@ssthil/cc-lean"><img alt="npm version" src="https://img.shields.io/npm/v/@ssthil/cc-lean?logo=npm&label=npm&color=cba6f7"></a>
+  <a href="https://github.com/ssthil/cc-lean/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/ssthil/cc-lean?logo=github&color=f9e2af"></a>
+  <a href="https://github.com/ssthil/cc-lean/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/ssthil/cc-lean/ci.yml?branch=main&logo=githubactions&logoColor=white&label=CI&color=94e2d5"></a>
+  <img alt="license MIT" src="https://img.shields.io/badge/license-MIT-a6e3a1">
+  <br>
+  <img alt="Claude Code CLI + plugin" src="https://img.shields.io/badge/Claude%20Code-CLI%20%2B%20plugin-cba6f7">
+  <img alt="tested on macOS" src="https://img.shields.io/badge/tested%20on-macOS-89b4fa?logo=apple&logoColor=white">
+  <img alt="also works with Linux" src="https://img.shields.io/badge/also%20works%20with-Linux-a6e3a1?logo=linux&logoColor=white">
+  <a href="https://github.com/ssthil/cc-lean/pulls"><img alt="PRs welcome" src="https://img.shields.io/badge/PRs-welcome-89dceb"></a>
+</p>
 
-No telemetry, no servers launched, no network calls. It only reads files already on your disk.
+**Keep your Claude Code setup lean.** A static, offline audit of your `~/.claude` config that finds the things quietly bloating every session — then lays down a lean default setup. No telemetry, no servers launched, no network calls — it only reads files already on your disk.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/ssthil/cc-lean/main/docs/audit.png" alt="cc-lean audit — framed terminal report showing used vs never-used MCP connectors, a posture score, and top fixes" width="620">
