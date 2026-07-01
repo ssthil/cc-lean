@@ -1,7 +1,7 @@
 {
   "name": "cc-lean",
   "displayName": "cc-lean — lean Claude Code",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Keep Claude Code lean: the /lean audit skill plus a PreCompact nudge to preserve state and prefer /clear at task boundaries.",
   "author": {
     "name": "Senthil Sivaramakrishnan",
@@ -12,6 +12,5 @@
   "repository": "https://github.com/ssthil/cc-lean",
   "license": "MIT",
   "keywords": ["claude-code", "token", "context", "lean", "mcp"],
-  "skills": ["./assets/skills/"],
-  "hooks": "./hooks/hooks.json"
+  "skills": ["./assets/skills/"]
 }
