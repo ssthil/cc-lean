@@ -47,6 +47,28 @@ export const c = {
   cyan: wrap(rgb('#89dceb', '36')),
 };
 
+/** Interpolate `text` across hex colour `stops` (truecolor only; falls back to bold mauve). */
+export function gradient(text, stops = ['#cba6f7', '#b4befe', '#94e2d5']) {
+  if (!useColor) return text;
+  if (!truecolor) return c.mauve(c.bold(text));
+  const rgbs = stops.map((hex) => {
+    const n = parseInt(hex.slice(1), 16);
+    return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+  });
+  const chars = [...text];
+  const n = Math.max(1, chars.length - 1);
+  return chars.map((ch, i) => {
+    if (ch === ' ') return ch;
+    const t = (i / n) * (rgbs.length - 1);
+    const seg = Math.min(rgbs.length - 2, Math.floor(t));
+    const lt = t - seg;
+    const [r1, g1, b1] = rgbs[seg];
+    const [r2, g2, b2] = rgbs[seg + 1];
+    const lerp = (a, b) => Math.round(a + (b - a) * lt);
+    return `\x1b[1m\x1b[38;2;${lerp(r1, r2)};${lerp(g1, g2)};${lerp(b1, b2)}m${ch}\x1b[0m`;
+  }).join('');
+}
+
 // Visible-width helpers — measure/pad strings ignoring ANSI colour codes, so
 // box-drawn layouts stay aligned regardless of styling.
 const ANSI_RE = /\x1b\[[0-9;]*m/g;

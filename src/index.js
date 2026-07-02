@@ -4,10 +4,9 @@ import { parseArgs } from 'node:util';
 import { audit } from './audit.js';
 import { init } from './init.js';
 import { c } from './util.js';
+import { renderWelcome } from './render.js';
 
-const HELP = `${c.bold('cc-lean')} — keep your Claude Code setup lean.
-
-${c.bold('Usage')}
+const HELP = `${c.bold('Usage')}
   cc-lean <command> [options]
 
 ${c.bold('Commands')}
@@ -42,6 +41,7 @@ async function main() {
 
   const cmd = positionals[0];
   if (values.help || !cmd) {
+    renderWelcome();
     console.log(HELP);
     return;
   }

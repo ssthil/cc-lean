@@ -2,7 +2,7 @@
 // audit.js and renders a modern, framed terminal UI — zero dependencies, just
 // ANSI + Unicode box-drawing. Kept separate from the audit logic so the same
 // data can feed other surfaces (e.g. a screenshot capture).
-import { c, vlen, padEnd, padStart, wrapText } from './util.js';
+import { c, vlen, padEnd, padStart, wrapText, gradient } from './util.js';
 
 const W = 60; // inner text width of framed blocks
 
@@ -35,6 +35,20 @@ function meter(pct, width, color) {
 function spark(count, max, width = 6) {
   const cells = max > 0 ? Math.max(1, Math.round((count / max) * width)) : 0;
   return c.teal('▇'.repeat(cells)) + c.overlay('·'.repeat(width - cells));
+}
+
+/** Compact wordmark banner shown on the bare `cc-lean` / `-h` screen. */
+export function renderWelcome() {
+  const L = [];
+  L.push('');
+  L.push(`  ${c.red('●')} ${c.yellow('●')} ${c.green('●')}`);
+  L.push('');
+  L.push(`  ${gradient([...'cc-lean'].join(' '))}`);
+  L.push(`  ${c.text('Keep your Claude Code setup lean.')}`);
+  L.push(`  ${c.subtext('Static, offline audit of ~/.claude — no telemetry, no network calls.')}`);
+  L.push('');
+  L.push(`  ${c.mauve('[mcp audit]')} ${c.teal('[claude.md]')} ${c.yellow('[statusline]')}`);
+  console.log(L.join('\n'));
 }
 
 export function renderReport(d) {
