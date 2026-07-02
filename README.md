@@ -100,6 +100,12 @@ The plugin ships the `/lean` skill and the PreCompact hook. It can't set your `s
 - Node ≥ 18 (zero runtime dependencies)
 - `jq` for the statusline (audit/init themselves don't need it)
 
+## Changelog
+
+### 0.4.0
+- Gradient wordmark welcome banner on bare `cc-lean` / `cc-lean -h`
+- Hero banner reworked as a hand-crafted SVG (posture-gauge mark, used/never-used connector map)
+
 ## License
 
 MIT
