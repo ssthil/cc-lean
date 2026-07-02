@@ -1,6 +1,6 @@
 {
   "name": "@ssthil/cc-lean",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Static, offline audit of your Claude Code setup — flags never-used MCP connectors, oversized CLAUDE.md/memory, and missing context guardrails. Then lays down a lean default setup.",
   "type": "module",
   "bin": {
