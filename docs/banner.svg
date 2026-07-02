@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250" role="img" aria-labelledby="title desc">
+  <title id="title">cc-lean banner</title>
+  <desc id="desc">Keep your Claude Code setup lean — posture gauge mark and cc-lean wordmark.</desc>
+
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e1e2e"/>
+      <stop offset="100%" stop-color="#11111b"/>
+    </linearGradient>
+
+    <radialGradient id="glowPurple" cx="88%" cy="-10%" r="70%">
+      <stop offset="0%" stop-color="#cba6f7" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#cba6f7" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="glowTeal" cx="8%" cy="115%" r="65%">
+      <stop offset="0%" stop-color="#94e2d5" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="#94e2d5" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="panel" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#cdd6f4" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#cdd6f4" stop-opacity="0.03"/>
+    </linearGradient>
+
+    <linearGradient id="wordmark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#cba6f7"/>
+      <stop offset="50%" stop-color="#b4befe"/>
+      <stop offset="100%" stop-color="#94e2d5"/>
+    </linearGradient>
+
+    <pattern id="grid" width="26" height="26" patternUnits="userSpaceOnUse">
+      <path d="M26 0H0V26" fill="none" stroke="#cdd6f4" stroke-opacity="0.045" stroke-width="1"/>
+    </pattern>
+
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <rect width="1000" height="250" rx="18" fill="url(#bg)"/>
+  <rect width="1000" height="250" rx="18" fill="url(#grid)"/>
+  <rect width="1000" height="250" rx="18" fill="url(#glowPurple)"/>
+  <rect width="1000" height="250" rx="18" fill="url(#glowTeal)"/>
+
+  <!-- window dots -->
+  <g transform="translate(28,26)">
+    <circle r="6" fill="#f38ba8"/>
+    <circle cx="20" r="6" fill="#f9e2af"/>
+    <circle cx="40" r="6" fill="#a6e3a1"/>
+  </g>
+
+  <!-- connector map: used vs never-used MCP connectors -->
+  <g transform="translate(730,24)" stroke-linecap="round">
+    <line x1="70" y1="46" x2="18" y2="16" stroke="#94e2d5" stroke-opacity="0.55" stroke-width="1.5"/>
+    <line x1="70" y1="46" x2="120" y2="14" stroke="#94e2d5" stroke-opacity="0.55" stroke-width="1.5"/>
+    <line x1="70" y1="46" x2="16" y2="78" stroke="#585b70" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="2 4"/>
+    <line x1="70" y1="46" x2="128" y2="86" stroke="#585b70" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="2 4"/>
+    <line x1="70" y1="46" x2="76" y2="106" stroke="#585b70" stroke-opacity="0.6" stroke-width="1.5" stroke-dasharray="2 4"/>
+    <circle cx="70" cy="46" r="7" fill="#a6e3a1"/>
+    <circle cx="18" cy="16" r="5" fill="#94e2d5"/>
+    <circle cx="120" cy="14" r="5" fill="#94e2d5"/>
+    <circle cx="16" cy="78" r="5" fill="#45475a"/>
+    <circle cx="128" cy="86" r="5" fill="#45475a"/>
+    <circle cx="76" cy="106" r="5" fill="#45475a"/>
+  </g>
+
+  <!-- posture gauge mark -->
+  <g transform="translate(46,42)" filter="url(#shadow)">
+    <rect x="0" y="0" width="150" height="150" rx="28" fill="url(#panel)" stroke="#cdd6f4" stroke-opacity="0.14"/>
+    <g transform="translate(75,102)">
+      <path d="M -46 0 A 46 46 0 0 1 -15.3 -43.4" fill="none" stroke="#f38ba8" stroke-width="13" stroke-linecap="round"/>
+      <path d="M -15.3 -43.4 A 46 46 0 0 1 15.3 -43.4" fill="none" stroke="#f9e2af" stroke-width="13" stroke-linecap="round"/>
+      <path d="M 15.3 -43.4 A 46 46 0 0 1 46 0" fill="none" stroke="#a6e3a1" stroke-width="13" stroke-linecap="round"/>
+      <line x1="0" y1="0" x2="30" y2="-34" stroke="#cdd6f4" stroke-width="4" stroke-linecap="round"/>
+      <circle r="6.5" fill="#cdd6f4"/>
+    </g>
+  </g>
+
+  <!-- wordmark -->
+  <g transform="translate(228,108)">
+    <text x="0" y="0" fill="url(#wordmark)" font-family="'SF Mono','JetBrains Mono',Menlo,Consolas,monospace" font-size="66" font-weight="700" letter-spacing="-2">cc-lean</text>
+    <text x="4" y="34" fill="#cdd6f4" font-family="'Segoe UI',system-ui,sans-serif" font-size="21" font-weight="500">Keep your Claude Code setup lean.</text>
+    <text x="4" y="58" fill="#9399b2" font-family="'Segoe UI',system-ui,sans-serif" font-size="14">Static, offline audit of ~/.claude — no telemetry, no network calls.</text>
+  </g>
+
+  <!-- feature badges -->
+  <g transform="translate(232,178)" font-family="'SF Mono','JetBrains Mono',ui-monospace,monospace" font-size="11" font-weight="700" letter-spacing="0.4">
+    <rect x="0" y="0" width="110" height="27" rx="13.5" fill="#cba6f7" fill-opacity="0.16" stroke="#cba6f7" stroke-opacity="0.4"/>
+    <text x="55" y="18" text-anchor="middle" fill="#e0c9fb">MCP AUDIT</text>
+
+    <rect x="120" y="0" width="112" height="27" rx="13.5" fill="#94e2d5" fill-opacity="0.16" stroke="#94e2d5" stroke-opacity="0.4"/>
+    <text x="176" y="18" text-anchor="middle" fill="#c3f2e9">CLAUDE.MD</text>
+
+    <rect x="242" y="0" width="122" height="27" rx="13.5" fill="#f9e2af" fill-opacity="0.16" stroke="#f9e2af" stroke-opacity="0.4"/>
+    <text x="303" y="18" text-anchor="middle" fill="#fbedc4">STATUSLINE</text>
+  </g>
+</svg>

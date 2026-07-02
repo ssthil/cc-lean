@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ssthil/cc-lean/main/docs/banner.png" alt="cc-lean — keep your Claude Code setup lean" width="820">
+  <img src="https://raw.githubusercontent.com/ssthil/cc-lean/main/docs/banner.svg" alt="cc-lean — keep your Claude Code setup lean" width="820">
 </p>
 
 <p align="center">
